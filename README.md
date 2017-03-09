@@ -18,9 +18,9 @@ installed.*
 
 - [Dependencies](#dependencies)
 - [Requirements](#requirements)
-- [How to user](#how-to-use)
+- [How to use](#how-to-use)
 - [The big picture](#the-big-picture)
-- [Devil Is in the Detail](#devil-is-in-the-detail)
+- [Devil is in the detail](#devil-is-in-the-detail)
   - [offlineimap](#offlineimap)
   - [msmtp](#msmtp)
   - [dovecot](#dovecot)
