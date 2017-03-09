@@ -84,7 +84,7 @@ official
 [document on `nametrans`](http://www.offlineimap.org/doc/versions/v6.5.6/nametrans.html#nametrans),
 it allows you to have different folder name other than the names on
 the remote server.  For example, when login in Gmail, you will see
-folders [1], e.g., `Sent Mail` for sent mails, `Trash` for deleted
+folders [^1], e.g., `Sent Mail` for sent mails, `Trash` for deleted
 mails, etc.  Different mail server may name these folders differently.
 If you want a unified names locally, you can use `nametrans` features
 to map a remote folder to the local folder with a different name,
@@ -99,7 +99,9 @@ to
 [document on `folderfilter`](http://www.offlineimap.org/doc/versions/v6.5.6/nametrans.html#folderfilter) for
 more details.
 
-[1]: Actually *virtual folders*, since all mails in Gmail are stored in *All Mail* folder, other folder names are just *tags* despite that they are visually displayed as *folders*.
+[^1]: Actually *virtual folders*, since all mails in Gmail are stored
+    in *All Mail* folder, other folder names are just *tags* despite
+    that they are visually displayed as *folders*.
 
 ### mstp ###
 
@@ -110,12 +112,14 @@ online.
 
 ### dovecot ###
 
-Full configuration [2] in [10-mail.conf](./10-mail.conf).
+Full configuration[^2] in [10-mail.conf](./10-mail.conf).
 
 There is only one change made in `10-mail.conf` which usually resides
 in `/etc/dovecot/conf.d/`.
 
-[2]: Not *full* configuration actually, there are lots of configuration files for `dovecot`, most of which, however, work out of the box.
+[^2]: Not *full* configuration actually, there are lots of
+    configuration files for `dovecot`, most of which, however, work
+    out of the box.
 
 ### cron ###
 
