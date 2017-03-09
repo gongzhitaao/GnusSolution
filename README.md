@@ -75,6 +75,7 @@ service if it is running in background.
 └── tmp
     ```
 4. Start `dovecot` by `sudo service dovecot start`.
+5. Register the `cron` job by `crontab cron-jobs`.
 5. Open `emacs` and fire up `gnus`.  And that's it!
 
 ## The Big Picture ##
