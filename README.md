@@ -14,7 +14,27 @@ reading/writing mails in Gnus, with the help of `offlineimap`,
 fine for all Linux distributions provided each component be properly
 installed.*
 
-## Dependecies ##
+## Table of Contents ##
+
+- [Dependencies](#dependencies)
+- [Requirements](#requirements)
+- [How to user](#how-to-use)
+- [The big picture](#the-big-picture)
+- [Devil Is in the Detail](#devil-is-in-the-detail)
+  - [offlineimap](#offlineimap)
+  - [msmtp](#msmtp)
+  - [dovecot](#dovecot)
+  - [cron](#cron)
+  - [gnus](#gnus)
+    - [Connect to `dovecot`](#connect-to-dovecot)
+    - [Read mails](#read-mails)
+    - [Send mails](#send-mails)
+    - [Where to store sent mails](#where-to-store-sent-mails)
+    - [Email account configuration](#email-account-configuration)
+    - [Miscellaneous](#miscellaneous)
+- [Conclusion](#conclusion)
+
+## Dependencies ##
 
 1. gnus. http://www.gnus.org/
 2. offlineimap. http://www.offlineimap.org/
@@ -78,7 +98,7 @@ service if it is running in background.
 5. Register the `cron` job by `crontab cron-jobs`.
 5. Open `emacs` and fire up `gnus`.  And that's it!
 
-## The Big Picture ##
+## The big picture ##
 
 This section gives a brief summary of what each component does, and
 does not if necessary.
@@ -105,23 +125,26 @@ does not if necessary.
    `gnus` is known to have problems properly handling flags, e.g.,
    *read*, on mails.  Instead of using `gnus` to directly messing up
    with mail, we use a delicate mail server, `dovecot` to interact
-   with mails professionally.  In this case,  `gnus` only tells
+   with mails professionally.  In this case, `gnus` only tells
    `dovecot` what it wants to do and `dovecot` does it accordingly.
-   For example, when finishing reading a mail in `gnus`, `gnus` sents
+   For example, when finishing reading a mail in `gnus`, `gnus`
    notifies `dovecot` that this mail should be marked as *read*,
    `dovecot` does it accordingly.  And as you already know it, this
    *read* flag with be synced by `offlineimap`.
 4. **cron**.  Invoke `offlineimap` periodically.  `offlineimap` does
    not run by itself magically, we need to invoke `offlineimap`
-   periodically to sync between remote and local.  You may also invoke
+   periodically to sync between local and remote.  You may also invoke
    `offlineimap` manually if that's how want it LOL.
 5. **gnus**.  You read/write/reply/... mails in it.  Basically it is a
    interface where you interact with mails.  Although `gnus` can
    actually finished all the above mentioned jobs by itself (woooof),
    I decide to use professional utilities to handle what it is best
    at.
+6. **netrc**.  The `netrc` file stores the password.  It has to be set
+   to mode `600` (read/write by current login user only) to work
+   properly.
 
-## Devil Is in the Detail ##
+## Devil is in the detail ##
 
 This section explains in detail configuration of each component.  Note
 that there are many possible working configurations available, what's
@@ -159,7 +182,7 @@ more details.
     in *All Mail* folder, other folder names are just *tags* despite
     that they are visually displayed as *folders*.
 
-### mstp ###
+### msmtp ###
 
 Full configuration in [msmtprc](./msmtprc).
 
@@ -179,9 +202,11 @@ in `/etc/dovecot/conf.d/`.
 
 ### cron ###
 
-The cron jobs are listed in [cron-jobs](./cron-jobs).
+The cron job to periodically invoke `offlineimap` is listed
+in [cron-jobs](./cron-jobs).
 
-Insert this cron job, the cron will invoke `offlineimap` periodically.
+Register this cron job, the `cron` will invoke `offlineimap`
+periodically.
 
 ### gnus ###
 
@@ -191,7 +216,7 @@ This is the most *frustrating* part.  I copied my full configuration
 here just for your information.  However, the essential part that
 makes it *just work* are detailed as follows.
 
-#### Connects to `dovecot` ####
+#### Connect to `dovecot` ####
 
 ```emacs-lisp
 (setq gnus-select-method
@@ -216,12 +241,13 @@ folder and send it to `gnus`.
 The above code notifies `emacs` that we want to use `gnus` to handle
 mails, since there are other options, e.g., `rmail`.
 
-#### Sending mails ####
+#### Send mails ####
 
 ```emacs-lisp
 (setq send-mail-function 'message-send-mail-with-sendmail)
 (setq sendmail-program "msmtp")
 ```
+
 The above code specifies that we want to use `msmtp` to send mails.
 Basically when finish editing a mail in `gnus`, you hit <kbd>C-c
 C-c</kbd>, the `gnus` automatically invoke `msmtp` to send mails.
@@ -242,7 +268,7 @@ with a different name?  If you don't use `nametrans` feature, then
 this `Tiger/sent` might be `Tiger/Sent Mails`, `Tiger/Sent Items` or
 some other names.
 
-#### Per email account configuration ####
+#### Email account configuration ####
 
 ```emacs-lisp
 (setq gnus-parameters
@@ -271,3 +297,11 @@ charset, etc.
 
 All other configurations are just for personal preference.  You could
 easily find their document online or through `emacs` inline manual.
+
+## Conclusion ##
+
+Now it works.
+
+This repo shows a *complete* and *working* solution of `gnus`, another
+step towards **living in emacs**.  It took me years to get used to
+`emacs` and `gnus`, and I never regret the effort.
