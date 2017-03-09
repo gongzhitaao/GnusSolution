@@ -1,0 +1,80 @@
+# Offlineimap configuration file
+
+[general]
+
+accounts = Tiger, Gmail
+# maxsyncaccounts = 4
+ignore_UID_on_errors = yes
+
+# --------------------------------------------------------------------
+# Tiger Mail
+# --------------------------------------------------------------------
+
+[Account Tiger]
+
+localrepository = TigerLocal
+remoterepository = TigerRemote
+
+[Repository TigerLocal]
+
+type = Maildir
+localfolders = ~/Mail/Tiger
+sep = /
+
+[Repository TigerRemote]
+
+type = IMAP
+remotehost = outlook.office365.com
+
+ssl = yes
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+
+remoteport = 993
+remoteuser = zzg0009@tigermail.auburn.edu
+createfolders = False
+
+nametrans = lambda folder: re.sub('sent_items', 'sent',
+                           re.sub('deleted_items', 'trash',
+                           re.sub(' ', '_', folder.lower())))
+
+folderfilter = lambda folder: folder in ['Deleted Items',
+                                         'Sent Items',
+                                         'Archive',
+                                         'INBOX']
+
+# --------------------------------------------------------------------
+# GMail
+# --------------------------------------------------------------------
+
+[Account Gmail]
+
+localrepository = GmailLocal
+remoterepository = GmailRemote
+synclabels = yes
+
+[Repository GmailLocal]
+
+type = GmailMaildir
+localfolders = ~/Mail/Gmail
+sep = /
+
+[Repository GmailRemote]
+
+type = Gmail
+remoteuser = zhitaao.gong@gmail.com
+sslcacertfile = /etc/ssl/certs/ca-certificates.crt
+createfolders = False
+
+nametrans = lambda folder: re.sub('\[gmail\]\/all_mail', 'archive',
+                           re.sub('\[gmail\]\/important', 'important',
+                           re.sub('\[gmail\]\/sent_mail', 'sent',
+                           re.sub('\[gmail\]\/starred', 'flagged',
+                           re.sub('\[gmail\]\/trash', 'trash',
+                           re.sub(' ', '_', folder.lower()))))))
+
+folderfilter = lambda folder: folder in ['[Gmail]/Trash',
+                                         '[Gmail]/Important',
+                                         '[Gmail]/Starred',
+                                         '[Gmail]/Sent Mail',
+                                         '[Gmail]/All Mail',
+                                         'INBOX']

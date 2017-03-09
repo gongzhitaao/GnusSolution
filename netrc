@@ -1,0 +1,11 @@
+machine localhost
+        login <computer-login-username>
+        password <computer-login-password>
+
+machine outlook.office365.com
+        login <your-email-username>
+        password <your-email-password>
+
+machine imap.gmail.com
+        login <your-gmail-account>
+        password <google-app-sign-in-password>
