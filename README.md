@@ -22,6 +22,61 @@ installed.*
 4. msmtp. http://msmtp.sourceforge.net/
 5. cron. https://directory.fsf.org/wiki/Vixie-cron
 
+## Requirements ##
+
+1. Basic knowledge of Linux environment
+2. Comfortable with command line.
+3. Good knowledge of `emacs` and `gnus`.
+
+## How to Use ##
+
+Make sure all dependencies are installed properly and stop `dovecot`
+service if it is running in background.
+
+1. *Edit* and copy `msmtprc`, `netrc` and `offlineimaprc` to
+   `~/.msmtprc`, `~/.netrc` and `~/.offineimaprc`.
+2. Edit `10-mail.conf` accordingly (detailed below).
+3. Invoke `offlineimap` manually.  Sit back and have a cup of coffee,
+   it will takes quite some time to download all the mails for first
+   time.  Once finished, you should be able to see a similar folder
+   structure.
+
+    ```
+~/Mail/
+├── archive
+├── cur
+├── drafts
+├── Gmail
+│   ├── archive
+│   │   ├── cur
+│   │   ├── new
+│   │   └── tmp
+│   ├── flagged
+│   │   ├── cur
+│   │   ├── new
+│   │   └── tmp
+│   ├── important
+│   │   ├── cur
+│   │   ├── new
+│   │   └── tmp
+│   ├── inbox
+│   │   ├── cur
+│   │   ├── new
+│   │   └── tmp
+│   ├── sent
+│   │   ├── cur
+│   │   ├── new
+│   │   └── tmp
+│   └── trash
+│       ├── cur
+│       ├── new
+│       └── tmp
+├── new
+└── tmp
+    ```
+4. Start `dovecot` by `sudo service dovecot start`.
+5. Open `emacs` and fire up `gnus`.  And that's it!
+
 ## The Big Picture ##
 
 This section gives a brief summary of what each component does, and
