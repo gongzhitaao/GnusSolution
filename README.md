@@ -1,19 +1,3 @@
-Complete Gnus
-=============
-
-- [Dependencies](#sec:dependencies)
-- [Requirements](#sec:requirements)
-- [How to Use](#sec:how-to-use)
-- [The Big Picture](#sec:the-big-picture)
-- [Devil in the detail](#sec:devil-in-the-detail)
-  - [offlineimap](#subsec:offlineimap)
-  - [msmtp](#subsec:msmtp)
-  - [dovecot](#subsec:dovecot)
-  - [cron](#subsec:cron)
-  - [gnus](#subsec:gnus)
-- [Miscellaneous](#sec:miscellaneous)
-- [Conclusion](#sec:conclusion)
-
 This repo demonstrate one **complete** and **working** solution to reading/writing mails in Gnus, with the help of `offlineimap`, `dovecot`, `msmtp` and `cron`. Concretely, this repo contains
 
 1.  necessary configuration files for each component,
@@ -22,8 +6,29 @@ This repo demonstrate one **complete** and **working** solution to reading/writi
 
 *Note: The conf is tested under Ubuntu, it should work fine for all Linux distributions provided each component be properly installed.*
 
+<nav id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec:dependencies">1. Dependencies</a></li>
+<li><a href="#sec:requirements">2. Requirements</a></li>
+<li><a href="#sec:how-to-use">3. How to Use</a></li>
+<li><a href="#sec:the-big-picture">4. The Big Picture</a></li>
+<li><a href="#sec:devil-in-the-detail">5. Devil in the detail</a>
+<ul>
+<li><a href="#subsec:offlineimap">5.1. offlineimap</a></li>
+<li><a href="#subsec:msmtp">5.2. msmtp</a></li>
+<li><a href="#subsec:dovecot">5.3. dovecot</a></li>
+<li><a href="#subsec:cron">5.4. cron</a></li>
+<li><a href="#subsec:gnus">5.5. gnus</a></li>
+</ul>
+</li>
+<li><a href="#sec:miscellaneous">6. Miscellaneous</a></li>
+<li><a href="#sec:conclusion">7. Conclusion</a></li>
+</ul>
+</div>
+</nav>
 
-<a id="sec:dependencies"></a>
 
 # Dependencies
 
@@ -34,16 +39,12 @@ This repo demonstrate one **complete** and **working** solution to reading/writi
 5.  cron, <https://directory.fsf.org/wiki/Vixie-cron>
 
 
-<a id="sec:requirements"></a>
-
 # Requirements
 
 1.  Basic knowledge of Linux environment
 2.  Comfortable with command line.
 3.  Good knowledge of `emacs` and `gnus`.
 
-
-<a id="sec:how-to-use"></a>
 
 # How to Use
 
@@ -90,8 +91,6 @@ Make sure all dependencies are installed properly and stop `dovecot` service if 
 6.  Open `emacs` and fire up `gnus`. And that's it!
 
 
-<a id="sec:the-big-picture"></a>
-
 # The Big Picture
 
 This section gives a brief summary of what each component does, and does not if necessary.
@@ -117,14 +116,10 @@ This section gives a brief summary of what each component does, and does not if 
 -   **netrc:** The \`netrc\` file stores the password. It has to be set to mode \`600\` (read/write by current login user only) to work properly.
 
 
-<a id="sec:devil-in-the-detail"></a>
-
 # Devil in the detail
 
 This section explains in detail configuration of each component. Note that there are many possible working configurations available, what's outlined here is just one of them (as a result of my years of frustration).
 
-
-<a id="subsec:offlineimap"></a>
 
 ## offlineimap
 
@@ -139,16 +134,12 @@ In my configuration, `nametrans` takes a Python function, with sole parameter `f
 `folderfilter` controls which folders to sync. Please refer to [document on `folderfilter`](http://www.offlineimap.org/doc/versions/v6.5.6/nametrans.html#folderfilter) for more details.
 
 
-<a id="subsec:msmtp"></a>
-
 ## msmtp
 
 Full configuration in <msmtprc>.
 
 The configuration is just standard. I copied the configuration from online.
 
-
-<a id="subsec:dovecot"></a>
 
 ## dovecot
 
@@ -157,8 +148,6 @@ Full <sup><a id="fnr.2" name="fnr.2" class="footref" href="#fn.2">2</a></sup> co
 There is only one change made in `10-mail.conf` which usually resides in `/etc/dovecot/conf.d/`.
 
 
-<a id="subsec:cron"></a>
-
 ## cron
 
 The cron job to invoke `offlineimap` periodically is listed in <cron-jobs>.
@@ -166,16 +155,12 @@ The cron job to invoke `offlineimap` periodically is listed in <cron-jobs>.
 Register this cron job, the `cron` will invoke `offlineimap` periodically.
 
 
-<a id="subsec:gnus"></a>
-
 ## gnus
 
 Full configuration in <gnus-conf.el>.
 
 This is the most *frustrating* part. I copied my full configuration here just for your information. However, the essential part that makes it *just work* are detailed as follows.
 
-
-<a id="orgcaabb94"></a>
 
 ### Connect to `dovecot`
 
@@ -190,8 +175,6 @@ This is the most *frustrating* part. I copied my full configuration here just fo
 Remember that we have a local mail server, `dovecot`, running? The above code connects `gnus` to `dovecot`. Whenever we/gnus want to read mails, `gnus` notifies `dovecot` which retrieves mails from local folder and send it to `gnus`.
 
 
-<a id="orgd4d4a98"></a>
-
 ### Read mails
 
 ```emacs-lisp
@@ -201,8 +184,6 @@ Remember that we have a local mail server, `dovecot`, running? The above code co
 
 The above code notifies `emacs` that we want to use `gnus` to handle mails, since there are other options, e.g., `rmail`.
 
-
-<a id="orgb613ecf"></a>
 
 ### Send mails
 
@@ -249,14 +230,10 @@ The above code specifies that we want to use `msmtp` to send mails. Basically wh
     This above code configures each account separately, e.g, signatures, charset, etc.
 
 
-<a id="sec:miscellaneous"></a>
-
 # Miscellaneous
 
 All other configurations are just for personal preference. You could easily find their document online or through `emacs` inline manual.
 
-
-<a id="sec:conclusion"></a>
 
 # Conclusion
 
