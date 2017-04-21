@@ -1,5 +1,4 @@
 #+TITLE: Complete Gnus
-#+OPTIONS: toc:nil
 
 This repo demonstrate one *complete* and *working* solution to
 reading/writing mails in Gnus, with the help of =offlineimap=,
@@ -12,8 +11,6 @@ reading/writing mails in Gnus, with the help of =offlineimap=,
 
 /Note: The conf is tested under Ubuntu, it should work fine for all
 Linux distributions provided each component be properly installed./
-
-#+TOC: headlines 2
 
 * Dependencies
 :PROPERTIES:
