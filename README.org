@@ -1,5 +1,7 @@
 #+TITLE: Complete Gnus
 
+*SWITCHED TO mu4e, THE CODE IS PROVIDED AS IT-IS, MAY NOT UPDATE IT ANYMORE.*
+
 This repo demonstrate one *complete* and *working* solution to
 reading/writing mails in Gnus, with the help of =offlineimap=,
 =dovecot=, =msmtp= and =cron=.  Concretely, this repo contains
